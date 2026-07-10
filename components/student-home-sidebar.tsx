@@ -33,7 +33,7 @@ const TRACKS = [
   { title: '电能表更换三维仿...', status: '学习中', statusCls: 'bg-emerald-100 text-emerald-600', icon: Layers },
 ]
 
-export function StudentHomeSidebar() {
+export function StudentHomeSidebar({ onMenuSelect }: { onMenuSelect?: (label: string) => void }) {
   return (
     <aside className="flex h-full w-56 flex-col border-r bg-[#f5f8fc]">
       {/* 标题 */}
@@ -64,7 +64,7 @@ export function StudentHomeSidebar() {
           <Link
             key={item.label}
             href="#"
-            onClick={(e) => e.preventDefault()}
+            onClick={(e) => { e.preventDefault(); onMenuSelect?.(item.label) }}
             className={cn(
               'flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors',
               item.active

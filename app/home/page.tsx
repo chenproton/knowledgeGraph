@@ -68,7 +68,7 @@ const QUICK_ACTIONS = [
 
 type TabKey = 'home' | 'history' | 'diagnosis' | 'knowledge-graph' | 'learning' | 'assessment' | 'profile'
 
-const TABS: { label: string; key: TabKey }[] = [
+const ALL_TABS: { label: string; key: TabKey }[] = [
   { label: 'AI 工作台', key: 'home' },
   { label: '数据接入', key: 'history' },
   { label: '五维能力', key: 'diagnosis' },
@@ -77,6 +77,9 @@ const TABS: { label: string; key: TabKey }[] = [
   { label: '学习测评', key: 'assessment' },
   { label: '成效分析', key: 'profile' },
 ]
+
+const HIDDEN_TABS: TabKey[] = ['history', 'diagnosis']
+const TABS = ALL_TABS.filter((t) => !HIDDEN_TABS.includes(t.key))
 
 export default function StudentHomePage() {
   const searchParams = useSearchParams()
@@ -88,6 +91,17 @@ export default function StudentHomePage() {
   const [activeTab, setActiveTab] = useState<TabKey>('home')
   const [period, setPeriod] = useState<'week' | 'month' | 'year'>('month')
 
+  const handleMenuSelect = (label: string) => {
+    switch (label) {
+      case '个人课堂':
+        setActiveTab('home')
+        break
+      case '学习成效':
+        setActiveTab('profile')
+        break
+    }
+  }
+
   const PERIODS = [
     { key: 'week' as const, label: '本周' },
     { key: 'month' as const, label: '本月' },
@@ -96,7 +110,7 @@ export default function StudentHomePage() {
 
   return (
     <div className="flex h-full w-full">
-      <StudentHomeSidebar />
+      <StudentHomeSidebar onMenuSelect={handleMenuSelect} />
       <main className="flex flex-1 flex-col bg-background">
         {/* 顶部标签栏 */}
         <div className="flex shrink-0 items-center overflow-x-auto border-b px-6">
