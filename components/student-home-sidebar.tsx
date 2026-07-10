@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import { useState } from 'react'
 import {
   MonitorPlay,
   Bot,
@@ -18,13 +19,13 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { cn } from '@/lib/utils'
 
 const MENU = [
-  { label: '直播课堂', icon: MonitorPlay, active: false },
-  { label: '个人课堂', icon: Bot, active: true },
-  { label: '实训仿真', icon: Box, active: false },
-  { label: '课程智作', icon: Wand2, active: false },
-  { label: '我的考试', icon: ClipboardList, active:  false },
-  { label: '学习成效', icon: TrendingUp, active: false },
-  { label: '资源上传', icon: Upload, active: false },
+  { label: '直播课堂', icon: MonitorPlay },
+  { label: '个人课堂', icon: Bot },
+  { label: '实训仿真', icon: Box },
+  { label: '课程智作', icon: Wand2 },
+  { label: '我的考试', icon: ClipboardList },
+  { label: '学习成效', icon: TrendingUp },
+  { label: '资源上传', icon: Upload },
 ]
 
 const TRACKS = [
@@ -34,6 +35,13 @@ const TRACKS = [
 ]
 
 export function StudentHomeSidebar({ onMenuSelect }: { onMenuSelect?: (label: string) => void }) {
+  const [activeLabel, setActiveLabel] = useState('个人课堂')
+
+  const handleClick = (label: string) => {
+    setActiveLabel(label)
+    onMenuSelect?.(label)
+  }
+
   return (
     <aside className="flex h-full w-56 flex-col border-r bg-[#f5f8fc]">
       {/* 标题 */}
@@ -60,31 +68,34 @@ export function StudentHomeSidebar({ onMenuSelect }: { onMenuSelect?: (label: st
 
       {/* 主导航 */}
       <nav className="flex-1 space-y-1 px-3 py-4">
-        {MENU.map((item) => (
-          <Link
-            key={item.label}
-            href="#"
-            onClick={(e) => { e.preventDefault(); onMenuSelect?.(item.label) }}
-            className={cn(
-              'flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors',
-              item.active
-                ? 'bg-blue-50 text-slate-800'
-                : 'text-slate-600 hover:bg-slate-100'
-            )}
-          >
-            <span
+        {MENU.map((item) => {
+          const isActive = activeLabel === item.label
+          return (
+            <Link
+              key={item.label}
+              href="#"
+              onClick={(e) => { e.preventDefault(); handleClick(item.label) }}
               className={cn(
-                'flex size-7 items-center justify-center rounded-full',
-                item.active
-                  ? 'bg-emerald-500 text-white'
-                  : 'bg-transparent text-slate-500'
+                'flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors',
+                isActive
+                  ? 'bg-blue-50 text-slate-800'
+                  : 'text-slate-600 hover:bg-slate-100'
               )}
             >
-              <item.icon className="size-4" />
-            </span>
-            {item.label}
-          </Link>
-        ))}
+              <span
+                className={cn(
+                  'flex size-7 items-center justify-center rounded-full',
+                  isActive
+                    ? 'bg-emerald-500 text-white'
+                    : 'bg-transparent text-slate-500'
+                )}
+              >
+                <item.icon className="size-4" />
+              </span>
+              {item.label}
+            </Link>
+          )
+        })}
       </nav>
 
       {/* 学习轨迹 */}
