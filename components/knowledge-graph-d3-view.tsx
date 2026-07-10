@@ -261,11 +261,11 @@ export function KnowledgeGraphD3View({ nodes, edges, title, description, compact
       .attr('stroke-width', (d: any) => selectedId === d.id ? 2.5 : d.type === 'position' ? 2 : 1.5)
     nodeG.style('opacity', (d: any) => {
       if (!activeIds) return 1
-      return activeIds.has((d as SimNode).id) ? 1 : 0.08
+      return activeIds.has((d as SimNode).id) ? 1 : 0.35
     })
     nodeG.select('text').style('opacity', (d: any) => {
       if (!activeIds) return 1
-      return activeIds.has((d as SimNode).id) ? 1 : 0.08
+      return activeIds.has((d as SimNode).id) ? 1 : 0.4
     })
     linkG
       .attr('stroke', (d: any) => {
@@ -276,7 +276,7 @@ export function KnowledgeGraphD3View({ nodes, edges, title, description, compact
       .attr('opacity', (d: any) => {
         if (!activeIds) return 0.6
         const link = d as SimLink
-        return activeIds.has(link.source.id) && activeIds.has(link.target.id) ? 0.8 : 0.05
+        return activeIds.has(link.source.id) && activeIds.has(link.target.id) ? 0.8 : 0.15
       })
   }, [selectedId, connectedIds, highlightNodeIds])
 
@@ -324,7 +324,7 @@ export function KnowledgeGraphD3View({ nodes, edges, title, description, compact
       const cy = (minY + maxY) / 2
       const DRAWER_W = selectedId ? 400 : 0
       const visW = Math.max(dims.width - DRAWER_W, 240)
-      const scale = Math.min((0.82 * visW) / bw, (0.82 * dims.height) / bh, 1.8)
+      const scale = Math.min((0.55 * visW) / bw, (0.55 * dims.height) / bh, 1.2)
       const tx = visW / 2 - scale * cx
       const ty = dims.height / 2 - scale * cy
       d3.select(svgEl)
