@@ -214,9 +214,9 @@ export function AssessmentContent() {
         <div className="flex items-start gap-3">
           <span className="mt-1 h-8 w-1.5 rounded-full bg-gradient-to-b from-[#5b76e8] to-[#8c6ff0]" />
           <div>
-            <h1 className="text-2xl font-bold tracking-tight">学习测评</h1>
+            <h1 className="text-2xl font-bold tracking-tight">学习评测</h1>
             <p className="mt-0.5 text-sm text-muted-foreground">
-              随堂测试与考试记录，评估学习掌握程度
+              课件学习与随堂自主测试，所有学习、测评均由学员自主完成
             </p>
           </div>
         </div>
@@ -308,7 +308,7 @@ export function AssessmentContent() {
           <Card className="flex-1 overflow-hidden">
             <CardHeader className="pb-2">
               <CardTitle className="flex items-center gap-2 text-sm">
-                <ClipboardCheck className="size-4" /> 考试记录
+                <ClipboardCheck className="size-4" /> 最近考试记录
               </CardTitle>
             </CardHeader>
             <CardContent className="overflow-y-auto max-h-[280px]">
@@ -319,7 +319,7 @@ export function AssessmentContent() {
                   <thead>
                     <tr className="border-b text-left text-muted-foreground">
                       <th className="pb-1 font-medium">考试名称</th>
-                      <th className="pb-1 text-right font-medium">得分</th>
+                      <th className="pb-1 text-right font-medium">得分/及格分</th>
                       <th className="pb-1 text-right font-medium">通过</th>
                       <th className="pb-1 text-right font-medium">时间</th>
                     </tr>

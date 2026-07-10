@@ -76,7 +76,7 @@ const LEARNING_TABS: { label: string; key: TabKey }[] = [
   { label: '成效分析', key: 'profile' },
   { label: '知识图谱', key: 'knowledge-graph' },
   { label: '学习推荐', key: 'learning' },
-  { label: '学习测评', key: 'assessment' },
+  { label: '学习评测', key: 'assessment' },
 ]
 
 export default function StudentHomePage() {

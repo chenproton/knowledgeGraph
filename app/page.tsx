@@ -88,7 +88,7 @@ const WORKFLOW: {
       '五维能力：扣分项定位五维短板',
       '知识图谱构建：标准图谱高亮薄弱节点',
       '学习资源推荐：70%执行+30%考试综合推荐',
-      '学习测评：课件学习与随堂自测',
+      '学习评测：课件学习与随堂自测',
       '成效评估：对比频次、扣分值与稳定性',
     ],
   },
@@ -104,7 +104,7 @@ export default function HomePage() {
       { path: '/diagnosis', label: '五维能力', icon: Radar, desc: '基于扣分项分析五维短板' },
       { path: '/knowledge-graph', label: '知识图谱构建', icon: Network, desc: '岗位标准图谱并高亮薄弱节点' },
       { path: '/learning', label: '个性化学习资源推荐', icon: BookOpen, desc: '依据短板获取推荐学习资源' },
-      { path: '/assessment', label: '学习测评', icon: ClipboardCheck, desc: '课件学习与随堂自主测试' },
+      { path: '/assessment', label: '学习评测', icon: ClipboardCheck, desc: '课件学习与随堂自主测试' },
       { path: '/profile', label: '最终学习成效评估', icon: UserCircle, desc: '学习前后对比与技能稳定性成效评估' },
     ],
     admin: [

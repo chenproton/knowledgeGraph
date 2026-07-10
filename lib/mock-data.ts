@@ -435,6 +435,15 @@ export const COURSES: Course[] = [
     description: '进入电能表更换的三维仿真环境，通过教学模式学习操作步骤，再进入自主实操模式独立完成全流程练习，最后进入考核模式自动评分。',
   },
 ]
+// 课程标题覆盖（用于考试记录显示）
+const COURSE_TITLE_OVERRIDES: Record<string, string> = {
+  c1: '装表接电考核',
+  c3: '高压安全校核专项考核',
+  c5: '电压互感器现场作业理论考试',
+}
+COURSES.forEach((c) => {
+  if (COURSE_TITLE_OVERRIDES[c.id]) c.title = COURSE_TITLE_OVERRIDES[c.id]
+})
 
 export const STUDENTS: Student[] = [
   {
