@@ -77,7 +77,7 @@ const TIER_TEXT: Record<Tier, string> = {
   below: 'text-amber-600',
 }
 const TIER_BADGE: Record<Tier, { label: string; cls: string }> = {
-  exceed: { label: '超基准', cls: 'bg-emerald-50 text-emerald-600 ring-1 ring-emerald-200' },
+  exceed: { label: '达标', cls: 'bg-emerald-50 text-emerald-600 ring-1 ring-emerald-200' },
   meet: { label: '达标', cls: 'bg-indigo-50 text-indigo-600 ring-1 ring-indigo-200' },
   below: { label: '未达标', cls: 'bg-amber-50 text-amber-600 ring-1 ring-amber-200' },
 }
@@ -458,11 +458,11 @@ export function ProfileContent({ onNavigate }: { onNavigate?: (abilityId: string
         const afterScore = sorted[sorted.length - 1]?.score ?? 0
         const unit = getUnitById(e.abilityId)
         const baseline = unit?.baseline ?? 70
-        const tierOf = (s: number) => (s >= baseline + 5 ? '超基准' : s >= baseline ? '达标' : '未达标')
+        const tierOf = (s: number) => (s >= baseline + 5 ? '达标' : s >= baseline ? '达标' : '未达标')
         const beforeTier = tierOf(beforeScore)
         const afterTier = tierOf(afterScore)
         const delta = afterScore - beforeScore
-        const improved = afterTier !== beforeTier && (afterTier === '达标' || afterTier === '超基准')
+        const improved = (afterTier !== beforeTier && afterTier === '达标')
           ? 'up' : delta > 0 ? 'up' : delta < 0 ? 'down' : 'flat'
         return { abilityId: e.abilityId, abilityName: e.abilityName, beforeScore, afterScore, beforeTier, afterTier, delta, baseline, improved, dimensionDeltas: e.dimensionDeltas }
       })
@@ -653,7 +653,6 @@ export function ProfileContent({ onNavigate }: { onNavigate?: (abilityId: string
                   const tierColor: Record<string, string> = {
                     '未达标': 'bg-amber-100 text-amber-700',
                     '达标': 'bg-indigo-100 text-indigo-700',
-                    '超基准': 'bg-emerald-100 text-emerald-700',
                   }
                   return (
                     <div key={s.abilityId} className="rounded-lg border bg-white p-2.5">
