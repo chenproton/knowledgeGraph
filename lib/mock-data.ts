@@ -759,11 +759,7 @@ const DIMENSION_PROBLEMS: Record<
 
 type TaskTemplate = { name: string; category: string; dimensions: Dimension[] }
 
-const INSTALL_TASKS: TaskTemplate[] = [
-  { name: '现场勘查与准备', category: '现场勘查类', dimensions: ['数量', '效率'] },
-  { name: '设备安装接线', category: '装接作业类', dimensions: ['质量', '规范'] },
-  { name: '安全检查与验收', category: '安全验收类', dimensions: ['安全', '规范'] },
-]
+const INSTALL_TASKS: TaskTemplate[] = []
 
 const SURVEY_TASKS: TaskTemplate[] = [
   { name: '用户信息核对', category: '普查核对类', dimensions: ['数量'] },
@@ -785,6 +781,7 @@ function buildWorkorderTasks(
   const isSurvey = dom?.type === '计量采集装置普查'
 
   const templates = isSurvey ? SURVEY_TASKS : INSTALL_TASKS
+  if (templates.length === 0) return []
   const taskCount = total >= 8 ? 3 : 2
   const selectedTasks: TaskTemplate[] = []
   for (let i = 0; i < taskCount; i++) {
