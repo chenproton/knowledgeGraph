@@ -36,7 +36,7 @@ export const POSITIONS: Position[] = [
 
 export const CAPABILITY_DOMAINS: CapabilityDomain[] = [
   {
-    id: 'cd1', name: '低压三相直接表新装', code: 'CD-001', positionId: 'pos1',
+    id: 'cd1', name: '计量装置更换', code: 'CD-001', positionId: 'pos1',
     unitIds: ['cu1', 'cu2', 'cu3', 'cu15', 'cu16'],
     taskDescription: '完成低压三相直接电能表新装作业，包括现场勘查、设备安装、接线、调试及验收记录填写。',
     standardDuration: '2.5 小时',
@@ -45,7 +45,7 @@ export const CAPABILITY_DOMAINS: CapabilityDomain[] = [
     type: '计量采集装置新装', batchGroup: '批次2026-Q3-01', creator: '张工', createTime: '2026-05-10', version: 1,
   },
   {
-    id: 'cd2', name: '单相电能表更换', code: 'CD-002', positionId: 'pos1',
+    id: 'cd2', name: '计量装置新装', code: 'CD-002', positionId: 'pos1',
     unitIds: ['cu1', 'cu2', 'cu16'],
     taskDescription: '完成单相电能表更换作业，包括旧表拆除、新表安装、接线检查及送电验收。',
     standardDuration: '1.0 小时',
@@ -54,7 +54,7 @@ export const CAPABILITY_DOMAINS: CapabilityDomain[] = [
     type: '计量采集装置更换', batchGroup: '批次2026-Q3-01', creator: '张工', createTime: '2026-05-10', version: 1,
   },
   {
-    id: 'cd3', name: '低压带互感器三相电能表拆除', code: 'CD-003', positionId: 'pos1',
+    id: 'cd3', name: '计量装置拆除', code: 'CD-003', positionId: 'pos1',
     unitIds: ['cu4', 'cu5', 'cu6', 'cu15', 'cu16'],
     taskDescription: '完成低压带互感器三相电能表拆除作业，包括断电确认、设备拆除、线头绝缘处理及现场清理。',
     standardDuration: '1.5 小时',
@@ -81,7 +81,7 @@ export const CAPABILITY_DOMAINS: CapabilityDomain[] = [
     type: '计量采集装置新装', batchGroup: '批次2026-Q3-03', creator: '王工', createTime: '2026-06-15', version: 1,
   },
   {
-    id: 'cd6', name: '采集设备更换', code: 'CD-006', positionId: 'pos1',
+    id: 'cd6', name: '计量装置普查', code: 'CD-006', positionId: 'pos1',
     unitIds: ['cu9', 'cu10'],
     taskDescription: '完成采集设备更换作业，包括旧设备拆除、新设备安装、参数配置及通信调试。',
     standardDuration: '1.5 小时',
@@ -99,7 +99,7 @@ export const CAPABILITY_DOMAINS: CapabilityDomain[] = [
     type: '计量采集装置拆除', batchGroup: '批次2026-Q4-01', creator: '赵工', createTime: '2026-07-01', version: 1,
   },
   {
-    id: 'cd8', name: '低压用户计量普查', code: 'CD-008', positionId: 'pos1',
+    id: 'cd8', name: '计量装置巡视', code: 'CD-008', positionId: 'pos1',
     unitIds: ['cu17', 'cu18'],
     taskDescription: '完成低压用户现场普查与信息核对，包括表计信息核对、封印检查、现场照片及数据录入。',
     standardDuration: '2.0 小时',
