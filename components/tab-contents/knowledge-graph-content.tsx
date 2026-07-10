@@ -89,15 +89,7 @@ export function KnowledgeGraphContent() {
             <p className="mt-0.5 text-sm text-muted-foreground">{desc}</p>
           </div>
         </div>
-        <div className="flex items-center gap-3">
-          <div className="flex items-center gap-2">
-            <Calendar className="size-4 text-muted-foreground" />
-            <Input type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} className="w-32 h-8 text-xs" />
-            <span className="text-xs text-muted-foreground">—</span>
-            <Input type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)} className="w-32 h-8 text-xs" />
-          </div>
-          <ViewToggle mode={viewMode} onChange={setViewMode} />
-        </div>
+        <ViewToggle mode={viewMode} onChange={setViewMode} />
       </div>
       {viewMode === 'static' ? (
         <KnowledgeGraphView {...sp} />

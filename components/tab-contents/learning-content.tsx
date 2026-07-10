@@ -12,16 +12,12 @@ import {
   AlertCircle,
   ExternalLink,
   Target,
-  Network,
-  GitBranch,
-  FileWarning,
 } from 'lucide-react'
 import { toast } from 'sonner'
 import {
   getPositionAbilities,
   getLatestScore,
   getPositionGraph,
-  getAbilityWorkorders,
   getLearningPath,
   getCourseDescription,
   getCourseById,
@@ -32,18 +28,6 @@ import { useDemo } from '@/components/demo-provider'
 import { cn } from '@/lib/utils'
 import type { AbilityPoint, Course } from '@/lib/types'
 import { useSearchParams } from 'next/navigation'
-
-const KnowledgeGraphView = dynamic(
-  () => import('@/components/knowledge-graph-view').then((mod) => mod.KnowledgeGraphView),
-  {
-    ssr: false,
-    loading: () => (
-      <div className="flex h-96 items-center justify-center text-sm text-muted-foreground">
-        图谱加载中…
-      </div>
-    ),
-  }
-)
 
 const KnowledgeGraphD3View = dynamic(
   () => import('@/components/knowledge-graph-d3-view').then((mod) => mod.KnowledgeGraphD3View),
@@ -197,7 +181,6 @@ function AbilityDetail({
   studentId: string
   onOpenNode?: (n: NodeLite) => void
 }) {
-  const workorders = getAbilityWorkorders(ability.id)
   const latest = getLatestScore(studentId, ability.id)
   const score = latest?.score ?? 0
   const tier = tierOf(score, ability.baseline)
@@ -222,16 +205,6 @@ function AbilityDetail({
           <MasteryBar score={score} baseline={ability.baseline} />
         </div>
       </div>
-
-      {workorders.length > 0 && (
-        <div>
-          <SectionTitle>
-            <span className="flex items-center gap-1.5">
-              <FileWarning className="size-4 text-rose-500" /> 工单执行记录
-            </span>
-          </SectionTitle>
-        </div>
-      )}
 
       <div>
         <SectionTitle>
@@ -294,7 +267,6 @@ function AbilityDetail({
 export function LearningContent() {
   const { role } = useDemo()
   const link = useQueryLink()
-  const [viewMode, setViewMode] = useState<'static' | 'force'>('force')
 
   const abilities = useMemo(() => {
     const list = getPositionAbilities('pos1')
@@ -337,32 +309,6 @@ export function LearningContent() {
             <p className="mt-0.5 text-sm text-muted-foreground">
               基于岗位能力单元掌握情况，定位短板并推荐学习资源
             </p>
-          </div>
-        </div>
-        <div className="flex items-center gap-3">
-          <div className="flex items-center rounded-lg border bg-muted/60 p-0.5">
-            <button
-              onClick={() => setViewMode('static')}
-              className={cn(
-                'inline-flex items-center gap-1 rounded-md px-3 py-1 text-xs font-medium transition-colors',
-                viewMode === 'static'
-                  ? 'bg-gradient-to-r from-[#5b76e8] to-[#8c6ff0] text-white shadow-sm'
-                  : 'text-muted-foreground hover:text-foreground'
-              )}
-            >
-              <Network className="size-3.5" />静态
-            </button>
-            <button
-              onClick={() => setViewMode('force')}
-              className={cn(
-                'inline-flex items-center gap-1 rounded-md px-3 py-1 text-xs font-medium transition-colors',
-                viewMode === 'force'
-                  ? 'bg-gradient-to-r from-[#5b76e8] to-[#8c6ff0] text-white shadow-sm'
-                  : 'text-muted-foreground hover:text-foreground'
-              )}
-            >
-              <GitBranch className="size-3.5" />力矩
-            </button>
           </div>
         </div>
       </div>
@@ -418,11 +364,7 @@ export function LearningContent() {
 
         <div className="flex flex-col min-h-0 overflow-hidden lg:col-span-5">
           <div className="min-h-0 flex-1 bg-gradient-to-br from-indigo-50/40 to-purple-50/20 p-3">
-            {viewMode === 'static' ? (
-              <KnowledgeGraphView nodes={graph.nodes} edges={graph.edges} compact className="h-full max-h-[560px]" highlightNodeIds={highlightNodeIds} />
-            ) : (
-              <KnowledgeGraphD3View nodes={graph.nodes} edges={graph.edges} compact className="h-full max-h-[560px]" highlightNodeIds={highlightNodeIds} />
-            )}
+            <KnowledgeGraphD3View nodes={graph.nodes} edges={graph.edges} compact className="h-full max-h-[560px]" highlightNodeIds={highlightNodeIds} />
           </div>
         </div>
 

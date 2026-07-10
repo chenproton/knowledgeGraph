@@ -220,12 +220,6 @@ export function AssessmentContent() {
             </p>
           </div>
         </div>
-        <div className="flex items-center gap-2">
-          <Calendar className="size-4 text-muted-foreground" />
-          <Input type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} className="w-32 h-8 text-xs" />
-          <span className="text-xs text-muted-foreground">—</span>
-          <Input type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)} className="w-32 h-8 text-xs" />
-        </div>
       </div>
       <div className="grid gap-4 sm:grid-cols-3">
         <StatCard value={completedCourses} label="已完成课程" tone="green" icon={<BookOpen className="size-7" />} />
