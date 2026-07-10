@@ -773,6 +773,12 @@ const SURVEY_TASKS: TaskTemplate[] = [
 
 let deductionSeq = 0
 
+const TASK_NAME_OVERRIDES: Record<string, string> = {
+  '计量采集装置新装·安全检查与验收': '低压三相直接表新装',
+  '计量采集装置新装·现场勘查与准备': '高压三相表新装',
+  '计量采集装置新装·设备安装接线': '低压单表位表箱新装',
+}
+
 function buildWorkorderTasks(
   domainId: string,
   unitId: string,
@@ -823,7 +829,7 @@ function buildWorkorderTasks(
 
     return {
       id: `task-${domainId}-${tmpl.category}-${seed}-${ti}`,
-      name: `${domName}·${tmpl.name}`,
+      name: TASK_NAME_OVERRIDES[`${domName}·${tmpl.name}`] || `${domName}·${tmpl.name}`,
       category: tmpl.category,
       problems,
     }
