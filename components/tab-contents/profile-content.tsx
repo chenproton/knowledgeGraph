@@ -590,7 +590,7 @@ export function ProfileContent({ onNavigate }: { onNavigate?: (abilityId: string
                   <button
                     type="button"
                     key={ability.id}
-                    onClick={() => ability.name === '单相表新装能力' ? onNavigate?.(ability.id) : setHistoryAbility(ability)}
+                    onClick={() => onNavigate?.(ability.id)}
                     className="w-full cursor-pointer rounded-lg border bg-card p-3 text-left transition-colors hover:border-indigo-200 hover:bg-indigo-50/40"
                   >
                     <div className="flex items-center justify-between gap-2">
