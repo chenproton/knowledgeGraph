@@ -264,7 +264,7 @@ function AbilityDetail({
   )
 }
 
-export function LearningContent() {
+export function LearningContent({ defaultAbilityId }: { defaultAbilityId?: string | null }) {
   const { role } = useDemo()
   const link = useQueryLink()
 
@@ -280,11 +280,17 @@ export function LearningContent() {
       return sa - sb
     })
   }, [])
-  const [selectedAbilityId, setSelectedAbilityId] = useState(abilities[0]?.id)
+  const [selectedAbilityId, setSelectedAbilityId] = useState<string | undefined>(
+    (defaultAbilityId && abilities.find(a => a.id === defaultAbilityId)) ? defaultAbilityId : abilities[0]?.id
+  )
 
   useEffect(() => {
-    setSelectedAbilityId(abilities[0]?.id)
-  }, [abilities])
+    if (defaultAbilityId && abilities.find(a => a.id === defaultAbilityId)) {
+      setSelectedAbilityId(defaultAbilityId)
+    } else {
+      setSelectedAbilityId(abilities[0]?.id)
+    }
+  }, [abilities, defaultAbilityId])
 
   const selectedAbility = abilities.find((a) => a.id === selectedAbilityId)
   const graph = useMemo(() => getPositionGraph('pos1'), [])

@@ -364,7 +364,7 @@ const DIM_LABEL: Record<string, string> = {
   效率: '效率',
 }
 
-export function ProfileContent() {
+export function ProfileContent({ onNavigate }: { onNavigate?: (abilityId: string) => void }) {
   const student = getStudentById(STUDENT_ID)
   const positions = getStudentPositions(STUDENT_ID)
   const [historyAbility, setHistoryAbility] = useState<AbilityPoint | null>(null)
@@ -571,7 +571,7 @@ export function ProfileContent() {
         <div className="flex flex-col gap-5 lg:col-span-6 min-h-0">
           <Panel className="p-4 flex flex-col flex-1 min-h-0">
             <div className="flex flex-wrap items-center justify-between gap-3 shrink-0">
-              <SectionTitle extra={`当前岗位：${positions[0]?.name || '-'}`}>
+              <SectionTitle>
                 <span className="flex items-center gap-1.5">
                   <TrendingDown className="size-4 text-indigo-500" /> 岗位能力模型
                 </span>
@@ -590,7 +590,7 @@ export function ProfileContent() {
                   <button
                     type="button"
                     key={ability.id}
-                    onClick={() => setHistoryAbility(ability)}
+                    onClick={() => ability.name === '单相表新装能力' ? onNavigate?.(ability.id) : setHistoryAbility(ability)}
                     className="w-full cursor-pointer rounded-lg border bg-card p-3 text-left transition-colors hover:border-indigo-200 hover:bg-indigo-50/40"
                   >
                     <div className="flex items-center justify-between gap-2">
@@ -628,15 +628,15 @@ export function ProfileContent() {
             <div className="mt-2 grid grid-cols-3 gap-2 shrink-0">
               <div className="rounded-lg bg-emerald-50 px-2 py-1.5 text-center">
                 <div className="text-lg font-extrabold text-emerald-600">{effectivenessSummary.total}</div>
-                <div className="text-[10px] text-muted-foreground">能力项</div>
+                <div className="text-[10px] text-muted-foreground">能力提升</div>
               </div>
               <div className="rounded-lg bg-indigo-50 px-2 py-1.5 text-center">
                 <div className="text-lg font-extrabold text-indigo-600">{effectivenessSummary.up}</div>
-                <div className="text-[10px] text-muted-foreground">提升</div>
+                <div className="text-[10px] text-muted-foreground">能力下降</div>
               </div>
               <div className="rounded-lg bg-amber-50 px-2 py-1.5 text-center">
                 <div className="text-lg font-extrabold text-amber-600">{effectivenessSummary.down}</div>
-                <div className="text-[10px] text-muted-foreground">下降</div>
+                <div className="text-[10px] text-muted-foreground">稳定性低</div>
               </div>
             </div>
             <div className="mt-3 space-y-2 overflow-y-auto flex-1 min-h-0 pr-1">

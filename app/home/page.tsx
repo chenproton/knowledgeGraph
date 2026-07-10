@@ -89,6 +89,7 @@ export default function StudentHomePage() {
   const [section, setSection] = useState<'personal' | 'learning'>('personal')
   const [activeTab, setActiveTab] = useState<TabKey>('home')
   const [period, setPeriod] = useState<'week' | 'month' | 'year'>('month')
+  const [pendingAbilityId, setPendingAbilityId] = useState<string | null>(null)
 
   const TABS = section === 'personal' ? PERSONAL_TABS : LEARNING_TABS
 
@@ -332,9 +333,9 @@ export default function StudentHomePage() {
           {activeTab === 'history' && <HistoryContent />}
           {activeTab === 'diagnosis' && <DiagnosisContent />}
           {activeTab === 'knowledge-graph' && <KnowledgeGraphContent />}
-          {activeTab === 'learning' && <LearningContent />}
+          {activeTab === 'learning' && <LearningContent key={pendingAbilityId} defaultAbilityId={pendingAbilityId} />}
           {activeTab === 'assessment' && <AssessmentContent />}
-          {activeTab === 'profile' && <ProfileContent />}
+          {activeTab === 'profile' && <ProfileContent onNavigate={(id) => { setPendingAbilityId(id); setActiveTab('learning') }} />}
 
         </div>
       </main>
