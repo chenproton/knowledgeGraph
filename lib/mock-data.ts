@@ -188,7 +188,7 @@ export const CAPABILITY_UNITS: CapabilityUnit[] = [
     assessmentConfig: buildAssessmentConfig('cd3'),
   },
   {
-    id: 'cu5', name: '低压带互感器三相表拆除能力', code: 'CU-005', domainId: 'cd3',
+    id: 'cu5', name: '低压带互感器的三相表更换能力', code: 'CU-005', domainId: 'cd3',
     description: '完成低压带互感器三相表拆除作业', baseline: 75,
     knowledgeIds: ['k-lv3ct', 'k-lv3ct-1', 'k-lv3ct-2'],
     assessmentConfig: buildAssessmentConfig('cd3'),
@@ -212,7 +212,7 @@ export const CAPABILITY_UNITS: CapabilityUnit[] = [
     assessmentConfig: buildAssessmentConfig('cd5'),
   },
   {
-    id: 'cu9', name: '采集设备新装能力', code: 'CU-009', domainId: 'cd6',
+    id: 'cu9', name: '低压单表位表箱更换能力', code: 'CU-009', domainId: 'cd6',
     description: '完成采集设备新装作业', baseline: 75,
     knowledgeIds: ['k-acq', 'k-acq-1', 'k-acq-2'],
     assessmentConfig: buildAssessmentConfig('cd6'),
@@ -236,7 +236,7 @@ export const CAPABILITY_UNITS: CapabilityUnit[] = [
     assessmentConfig: buildAssessmentConfig('cd7'),
   },
   {
-    id: 'cu13', name: '低压用户普查能力', code: 'CU-013', domainId: 'cd4',
+    id: 'cu13', name: '低压多表位表箱更换能力', code: 'CU-013', domainId: 'cd4',
     description: '完成低压用户现场普查与信息核对', baseline: 70,
     knowledgeIds: ['k-survey', 'k-survey-1', 'k-survey-2'],
     assessmentConfig: buildAssessmentConfig('cd4'),
@@ -248,25 +248,25 @@ export const CAPABILITY_UNITS: CapabilityUnit[] = [
     assessmentConfig: buildAssessmentConfig('cd4'),
   },
   {
-    id: 'cu15', name: '安全组织措施能力', code: 'CU-015', domainId: 'cd1',
+    id: 'cu15', name: '煤改电普查能力', code: 'CU-015', domainId: 'cd1',
     description: '落实现场作业安全组织措施', baseline: 85,
     knowledgeIds: ['k-safety', 'k-safety-1', 'k-safety-2'],
     assessmentConfig: buildAssessmentConfig('cd1'),
   },
   {
-    id: 'cu16', name: '通用作业能力', code: 'CU-016', domainId: 'cd1',
+    id: 'cu16', name: '低压互感器新装能力', code: 'CU-016', domainId: 'cd1',
     description: '完成导线剥皮、压接与连接等通用作业', baseline: 75,
     knowledgeIds: ['k-common', 'k-common-1', 'k-common-2'],
     assessmentConfig: buildAssessmentConfig('cd1'),
   },
   {
-    id: 'cu17', name: '低压用户普查基础能力', code: 'CU-017', domainId: 'cd8',
+    id: 'cu17', name: '单相表更换能力', code: 'CU-017', domainId: 'cd8',
     description: '完成低压用户现场普查与信息核对', baseline: 70,
     knowledgeIds: ['k-survey', 'k-survey-1', 'k-survey-2'],
     assessmentConfig: buildAssessmentConfig('cd8'),
   },
   {
-    id: 'cu18', name: '低压用户普查数据录入能力', code: 'CU-018', domainId: 'cd8',
+    id: 'cu18', name: '变电站普查能力', code: 'CU-018', domainId: 'cd8',
     description: '完成普查数据录入、审核与上报', baseline: 70,
     knowledgeIds: ['k-survey', 'k-survey-1', 'k-survey-2'],
     assessmentConfig: buildAssessmentConfig('cd8'),
