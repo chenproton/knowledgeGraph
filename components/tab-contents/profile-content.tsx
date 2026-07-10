@@ -494,6 +494,12 @@ export function ProfileContent({ onNavigate }: { onNavigate?: (abilityId: string
             </p>
           </div>
         </div>
+        <div className="flex items-center gap-2">
+          <Calendar className="size-4 text-muted-foreground" />
+          <Input type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} className="w-32 h-8 text-xs" />
+          <span className="text-xs text-muted-foreground">—</span>
+          <Input type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)} className="w-32 h-8 text-xs" />
+        </div>
       </div>
       <div className="grid gap-5 lg:grid-cols-12 h-[630px]">
         <div className="flex flex-col gap-5 lg:col-span-3 min-h-0">
