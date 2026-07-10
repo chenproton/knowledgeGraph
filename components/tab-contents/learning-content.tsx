@@ -19,7 +19,6 @@ import {
   getLatestScore,
   getPositionGraph,
   getLearningPath,
-  getCourseDescription,
   getCourseById,
 } from '@/lib/mock-data'
 import { Button } from '@/components/ui/button'
@@ -131,7 +130,6 @@ const COURSE_STYLE: Record<Course['type'], { label: string; icon: React.ReactNod
 
 function CourseCard({ course, onOpenNode }: { course: Course; onOpenNode?: (n: NodeLite) => void }) {
   const style = COURSE_STYLE[course.type]
-  const desc = course.description || getCourseDescription(course.id)
 
   const handleStart = () => {
     window.open(`https://lms.example.com/course/${course.id}`, '_blank')
@@ -162,7 +160,7 @@ function CourseCard({ course, onOpenNode }: { course: Course; onOpenNode?: (n: N
           {style.label}
         </span>
       </div>
-      <div className="mt-1.5 text-xs text-muted-foreground">{desc ? `${desc}` : `预计 ${course.duration}`}</div>
+      <div className="mt-1.5 text-xs text-muted-foreground">预计 {course.duration}</div>
       <div className="mt-2.5 flex gap-2">
         <Button size="sm" variant="outline" className="h-7 text-xs" onClick={handleStart}>
           <ExternalLink className="mr-1 size-3" /> 学习
