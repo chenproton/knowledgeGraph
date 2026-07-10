@@ -36,7 +36,7 @@ export const POSITIONS: Position[] = [
 
 export const CAPABILITY_DOMAINS: CapabilityDomain[] = [
   {
-    id: 'cd1', name: '计量装置更换', code: 'CD-001', positionId: 'pos1',
+    id: 'cd1', name: '计量采集装置更换', code: 'CD-001', positionId: 'pos1',
     unitIds: ['cu1', 'cu2', 'cu3', 'cu15', 'cu16'],
     taskDescription: '完成低压三相直接电能表新装作业，包括现场勘查、设备安装、接线、调试及验收记录填写。',
     standardDuration: '2.5 小时',
@@ -45,7 +45,7 @@ export const CAPABILITY_DOMAINS: CapabilityDomain[] = [
     type: '计量采集装置新装', batchGroup: '批次2026-Q3-01', creator: '张工', createTime: '2026-05-10', version: 1,
   },
   {
-    id: 'cd2', name: '计量装置新装', code: 'CD-002', positionId: 'pos1',
+    id: 'cd2', name: '计量采集装置新装', code: 'CD-002', positionId: 'pos1',
     unitIds: ['cu1', 'cu2', 'cu16'],
     taskDescription: '完成单相电能表更换作业，包括旧表拆除、新表安装、接线检查及送电验收。',
     standardDuration: '1.0 小时',
@@ -54,7 +54,7 @@ export const CAPABILITY_DOMAINS: CapabilityDomain[] = [
     type: '计量采集装置更换', batchGroup: '批次2026-Q3-01', creator: '张工', createTime: '2026-05-10', version: 1,
   },
   {
-    id: 'cd3', name: '计量装置拆除', code: 'CD-003', positionId: 'pos1',
+    id: 'cd3', name: '计量装置普查', code: 'CD-003', positionId: 'pos1',
     unitIds: ['cu4', 'cu5', 'cu6', 'cu15', 'cu16'],
     taskDescription: '完成低压带互感器三相电能表拆除作业，包括断电确认、设备拆除、线头绝缘处理及现场清理。',
     standardDuration: '1.5 小时',
