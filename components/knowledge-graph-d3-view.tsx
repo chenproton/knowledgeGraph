@@ -251,6 +251,8 @@ export function KnowledgeGraphD3View({ nodes, edges, title, description, compact
     const linkG = g.selectAll<SVGPathElement, SimLink>('.link-d3')
     const nodeG = g.selectAll<SVGGElement, SimNode>('.node-d3')
 
+    const activeIds = selectedId ? connectedIds : (highlightNodeIds || null)
+
     nodeG.select('circle')
       .attr('r', (d: any) => selectedId === d.id ? TYPE_META_D3[(d as SimNode).type].radius + 4 : TYPE_META_D3[(d as SimNode).type].radius)
       .attr('fill-opacity', (d: any) => selectedId === d.id ? 0.3 : 0.16)
@@ -258,23 +260,23 @@ export function KnowledgeGraphD3View({ nodes, edges, title, description, compact
       .attr('stroke-opacity', (d: any) => selectedId === d.id ? 1 : 0.55)
       .attr('stroke-width', (d: any) => selectedId === d.id ? 2.5 : d.type === 'position' ? 2 : 1.5)
     nodeG.style('opacity', (d: any) => {
-      if (!selectedId) return 1
-      return connectedIds.has((d as SimNode).id) ? 1 : 0.12
+      if (!activeIds) return 1
+      return activeIds.has((d as SimNode).id) ? 1 : 0.08
     })
     nodeG.select('text').style('opacity', (d: any) => {
-      if (!selectedId) return 1
-      return connectedIds.has((d as SimNode).id) ? 1 : 0.15
+      if (!activeIds) return 1
+      return activeIds.has((d as SimNode).id) ? 1 : 0.08
     })
     linkG
       .attr('stroke', (d: any) => {
-        if (!selectedId) return '#c8d8f0'
+        if (!activeIds) return '#c8d8f0'
         const link = d as SimLink
-        return connectedIds.has(link.source.id) && connectedIds.has(link.target.id) ? '#93c5fd' : '#e5e7eb'
+        return activeIds.has(link.source.id) && activeIds.has(link.target.id) ? '#93c5fd' : '#e5e7eb'
       })
       .attr('opacity', (d: any) => {
-        if (!selectedId) return 0.6
+        if (!activeIds) return 0.6
         const link = d as SimLink
-        return connectedIds.has(link.source.id) && connectedIds.has(link.target.id) ? 0.8 : 0.1
+        return activeIds.has(link.source.id) && activeIds.has(link.target.id) ? 0.8 : 0.05
       })
   }, [selectedId, connectedIds, highlightNodeIds])
 
@@ -299,12 +301,14 @@ export function KnowledgeGraphD3View({ nodes, edges, title, description, compact
 
   // 选中节点后，将力矩图缩放到「当前节点 + 直接关联节点」刚好看全（右侧抽屉宽度预留）
   useEffect(() => {
-    if (!selectedId || !svgRef.current || !zoomRef.current) return
+    if (!svgRef.current || !zoomRef.current) return
+    const ids = selectedId ? connectedIds : highlightNodeIds
+    if (!ids) return
     const timer = setTimeout(() => {
       const svgEl = svgRef.current
       const zoom = zoomRef.current
       if (!svgEl || !zoom) return
-      const nodes = simNodesRef.current.filter((n) => connectedIds.has(n.id))
+      const nodes = simNodesRef.current.filter((n) => ids!.has(n.id))
       if (nodes.length === 0) return
       let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity
       nodes.forEach((n) => {
@@ -318,7 +322,7 @@ export function KnowledgeGraphD3View({ nodes, edges, title, description, compact
       const bh = Math.max(maxY - minY, 60)
       const cx = (minX + maxX) / 2
       const cy = (minY + maxY) / 2
-      const DRAWER_W = 400
+      const DRAWER_W = selectedId ? 400 : 0
       const visW = Math.max(dims.width - DRAWER_W, 240)
       const scale = Math.min((0.82 * visW) / bw, (0.82 * dims.height) / bh, 1.8)
       const tx = visW / 2 - scale * cx
@@ -330,7 +334,7 @@ export function KnowledgeGraphD3View({ nodes, edges, title, description, compact
     }, 80)
     return () => clearTimeout(timer)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedId])
+  }, [selectedId, highlightNodeIds])
 
   const selectedNode = filteredNodes.find((n) => n.id === selectedId)
 
