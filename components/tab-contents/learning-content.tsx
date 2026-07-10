@@ -12,10 +12,9 @@ import {
   AlertCircle,
   ExternalLink,
   Target,
-  FileWarning,
-  Calendar,
   Network,
   GitBranch,
+  FileWarning,
 } from 'lucide-react'
 import { toast } from 'sonner'
 import {
@@ -23,19 +22,15 @@ import {
   getLatestScore,
   getPositionGraph,
   getAbilityWorkorders,
-  getStudentWorkorders,
   getLearningPath,
   getCourseDescription,
   getCourseById,
 } from '@/lib/mock-data'
 import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { GraphDetailStack, type NodeLite } from '@/components/graph-node-detail'
 import { useDemo } from '@/components/demo-provider'
 import { cn } from '@/lib/utils'
-import type { AbilityPoint, Course, Dimension } from '@/lib/types'
-import { DIMENSIONS } from '@/lib/types'
+import type { AbilityPoint, Course } from '@/lib/types'
 import { useSearchParams } from 'next/navigation'
 
 const KnowledgeGraphView = dynamic(
@@ -63,14 +58,6 @@ const KnowledgeGraphD3View = dynamic(
 )
 
 const STUDENT_ID = 'stu-li'
-
-const DIMENSION_LABELS: Record<Dimension, { label: string; color: string }> = {
-  '数量': { label: '工作量', color: 'bg-blue-50 text-blue-600' },
-  '质量': { label: '工单质量', color: 'bg-amber-50 text-amber-600' },
-  '安全': { label: '安全性', color: 'bg-red-50 text-red-600' },
-  '规范': { label: '规范性', color: 'bg-purple-50 text-purple-600' },
-  '效率': { label: '效率', color: 'bg-emerald-50 text-emerald-600' },
-}
 
 function useQueryLink() {
   const searchParams = useSearchParams()
@@ -204,14 +191,10 @@ function CourseCard({ course, onOpenNode }: { course: Course; onOpenNode?: (n: N
 function AbilityDetail({
   ability,
   studentId,
-  startDate,
-  endDate,
   onOpenNode,
 }: {
   ability: AbilityPoint
   studentId: string
-  startDate: string
-  endDate: string
   onOpenNode?: (n: NodeLite) => void
 }) {
   const workorders = getAbilityWorkorders(ability.id)
@@ -220,38 +203,6 @@ function AbilityDetail({
   const tier = tierOf(score, ability.baseline)
   const badge = TIER_BADGE[tier]
   const qualified = score >= ability.baseline
-
-  const allRecords = useMemo(
-    () => getStudentWorkorders(studentId).filter((r) => r.date >= startDate && r.date <= endDate),
-    [studentId, startDate, endDate]
-  )
-  const [activeDomainId, setActiveDomainId] = useState(workorders[0]?.id ?? '')
-
-  useEffect(() => {
-    if (!workorders.find((w) => w.id === activeDomainId)) {
-      setActiveDomainId(workorders[0]?.id ?? '')
-    }
-  }, [workorders, activeDomainId])
-
-  const domainRecords = useMemo(
-    () => allRecords.filter((r) => r.workorderId === activeDomainId).sort((a, b) => b.date.localeCompare(a.date)),
-    [allRecords, activeDomainId]
-  )
-
-  const domainAverages = useMemo(() => {
-    if (domainRecords.length === 0) return null
-    const sums: Record<Dimension, number> = { '数量': 0, '质量': 0, '安全': 0, '规范': 0, '效率': 0 }
-    domainRecords.forEach((r) => {
-      DIMENSIONS.forEach((d) => {
-        sums[d] += r.dimensionScore[d] ?? 0
-      })
-    })
-    const avgs = {} as Record<Dimension, number>
-    DIMENSIONS.forEach((d) => {
-      avgs[d] = Math.round(sums[d] / domainRecords.length)
-    })
-    return avgs
-  }, [domainRecords])
 
   return (
     <div className="space-y-5">
@@ -276,79 +227,9 @@ function AbilityDetail({
         <div>
           <SectionTitle>
             <span className="flex items-center gap-1.5">
-              <FileWarning className="size-4 text-rose-500" /> 五维评分数据
+              <FileWarning className="size-4 text-rose-500" /> 工单执行记录
             </span>
           </SectionTitle>
-          <div className="mt-2.5 space-y-3">
-            {workorders.length > 1 && (
-              <Tabs value={activeDomainId} onValueChange={setActiveDomainId}>
-                <TabsList className="w-full">
-                  {workorders.map((w) => (
-                    <TabsTrigger key={w.id} value={w.id} className="flex-1 text-xs">
-                      {w.name}
-                    </TabsTrigger>
-                  ))}
-                </TabsList>
-              </Tabs>
-            )}
-            <div className="text-sm font-medium">
-              {workorders.find((w) => w.id === activeDomainId)?.name || activeDomainId}
-            </div>
-            {domainAverages ? (
-              <div className="space-y-2">
-                {DIMENSIONS.map((d) => {
-                  const dim = DIMENSION_LABELS[d]
-                  const val = domainAverages[d]
-                  return (
-                    <div key={d} className="flex items-center gap-2">
-                      <span className={cn('rounded px-1.5 py-0.5 text-[11px] font-medium shrink-0', dim.color)}>
-                        {dim.label}
-                      </span>
-                      <div className="relative flex-1 h-4 rounded-md bg-slate-100 overflow-hidden">
-                        <div
-                          className="absolute inset-y-0 left-0 rounded-md bg-gradient-to-r from-indigo-400 to-indigo-500 transition-all"
-                          style={{ width: `${val}%` }}
-                        />
-                      </div>
-                      <span className="text-xs font-mono font-semibold w-8 text-right">{val}</span>
-                    </div>
-                  )
-                })}
-              </div>
-            ) : (
-              <span className="text-xs text-muted-foreground">暂无执行记录</span>
-            )}
-
-            {domainRecords.length > 0 && (
-              <div className="rounded-lg border bg-muted/30 p-2">
-                <div className="mb-1.5 text-[11px] font-semibold text-muted-foreground">历史记录</div>
-                <table className="w-full text-[11px]">
-                  <thead>
-                    <tr className="text-muted-foreground">
-                      <th className="pb-1 text-left font-medium">日期</th>
-                      {DIMENSIONS.map((d) => (
-                        <th key={d} className="pb-1 text-right font-medium">{DIMENSION_LABELS[d].label.slice(0, 2)}</th>
-                      ))}
-                      <th className="pb-1 text-right font-medium">影响</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {domainRecords.slice(0, 10).map((r) => (
-                      <tr key={`${r.workorderId}-${r.date}`} className="border-t border-dashed">
-                        <td className="py-0.5 font-mono">{r.date.slice(5)}</td>
-                        {DIMENSIONS.map((d) => (
-                          <td key={d} className="py-0.5 text-right">{r.dimensionScore[d] ?? '-'}</td>
-                        ))}
-                        <td className={cn('py-0.5 text-right font-semibold', r.scoreImpact > 0 ? 'text-emerald-600' : 'text-rose-600')}>
-                          {r.scoreImpact > 0 ? '+' : ''}{r.scoreImpact}
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            )}
-          </div>
         </div>
       )}
 
@@ -413,9 +294,7 @@ function AbilityDetail({
 export function LearningContent() {
   const { role } = useDemo()
   const link = useQueryLink()
-  const [viewMode, setViewMode] = useState<'static' | 'force'>('static')
-  const [startDate, setStartDate] = useState('2026-06-08')
-  const [endDate, setEndDate] = useState('2026-07-07')
+  const [viewMode, setViewMode] = useState<'static' | 'force'>('force')
 
   const abilities = useMemo(() => {
     const list = getPositionAbilities('pos1')
@@ -437,6 +316,15 @@ export function LearningContent() {
 
   const selectedAbility = abilities.find((a) => a.id === selectedAbilityId)
   const graph = useMemo(() => getPositionGraph('pos1'), [])
+  const highlightNodeIds = useMemo(() => {
+    if (!selectedAbilityId) return undefined
+    const ids = new Set<string>([selectedAbilityId])
+    graph.edges.forEach((e) => {
+      if (e.source === selectedAbilityId) ids.add(e.target)
+      if (e.target === selectedAbilityId) ids.add(e.source)
+    })
+    return ids
+  }, [selectedAbilityId, graph.edges])
   const [detailNode, setDetailNode] = useState<NodeLite | null>(null)
 
   return (
@@ -452,12 +340,6 @@ export function LearningContent() {
           </div>
         </div>
         <div className="flex items-center gap-3">
-          <div className="flex items-center gap-2">
-            <Calendar className="size-4 text-muted-foreground" />
-            <Input type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} className="w-32 h-8 text-xs" />
-            <span className="text-xs text-muted-foreground">—</span>
-            <Input type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)} className="w-32 h-8 text-xs" />
-          </div>
           <div className="flex items-center rounded-lg border bg-muted/60 p-0.5">
             <button
               onClick={() => setViewMode('static')}
@@ -537,9 +419,9 @@ export function LearningContent() {
         <div className="flex flex-col min-h-0 overflow-hidden lg:col-span-5">
           <div className="min-h-0 flex-1 bg-gradient-to-br from-indigo-50/40 to-purple-50/20 p-3">
             {viewMode === 'static' ? (
-              <KnowledgeGraphView nodes={graph.nodes} edges={graph.edges} compact className="h-full max-h-[560px]" />
+              <KnowledgeGraphView nodes={graph.nodes} edges={graph.edges} compact className="h-full max-h-[560px]" highlightNodeIds={highlightNodeIds} />
             ) : (
-              <KnowledgeGraphD3View nodes={graph.nodes} edges={graph.edges} compact className="h-full max-h-[560px]" />
+              <KnowledgeGraphD3View nodes={graph.nodes} edges={graph.edges} compact className="h-full max-h-[560px]" highlightNodeIds={highlightNodeIds} />
             )}
           </div>
         </div>
@@ -547,12 +429,12 @@ export function LearningContent() {
         <div className="flex flex-col min-h-0 border-l lg:col-span-4">
           <div className="shrink-0 px-3 pt-2 pb-1">
             <div className="flex items-center gap-1.5 text-xs font-semibold text-muted-foreground">
-              <BookOpen className="size-3.5" /> 评价结果及建议
+              <BookOpen className="size-3.5" /> 能力详情
             </div>
           </div>
           <div className="min-h-0 flex-1 overflow-auto p-3">
             {selectedAbility ? (
-              <AbilityDetail ability={selectedAbility} studentId={STUDENT_ID} startDate={startDate} endDate={endDate} onOpenNode={setDetailNode} />
+              <AbilityDetail ability={selectedAbility} studentId={STUDENT_ID} onOpenNode={setDetailNode} />
             ) : (
               <div className="text-sm text-muted-foreground">请选择左侧能力单元查看详情</div>
             )}
