@@ -1,0 +1,6 @@
+export { HistoryContent } from './history-content'
+export { DiagnosisContent } from './diagnosis-content'
+export { KnowledgeGraphContent } from './knowledge-graph-content'
+export { LearningContent } from './learning-content'
+export { AssessmentContent } from './assessment-content'
+export { ProfileContent } from './profile-content'

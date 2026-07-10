@@ -8,12 +8,12 @@ module.exports = {
       exec_mode: 'fork',
       env: {
         NODE_ENV: 'production',
-        PORT: 3011,
+        PORT: 3021,
         HOSTNAME: '0.0.0.0',
       },
       env_production: {
         NODE_ENV: 'production',
-        PORT: 3011,
+        PORT: 3021,
         HOSTNAME: '0.0.0.0',
       },
       // 日志配置 - 使用相对路径，避免 /var/log/pm2 权限问题

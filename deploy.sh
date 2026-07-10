@@ -6,7 +6,7 @@ set -euo pipefail
 
 # ==================== 配置区 ====================
 SITE_NAME="knowledge-graph"
-PORT=3011
+PORT=3021
 
 # ==================== 自动推导 ====================
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
@@ -30,14 +30,14 @@ rm -rf "$STANDALONE_DIR" "$STATIC_DIR" "$SERVER_DIR"
 # ── 2. 安装依赖 ───────────────────────────────────────────────────────
 if [ ! -d "node_modules" ] || [ "${FORCE_INSTALL:-0}" = "1" ]; then
   echo "[2/4] 安装依赖..."
-  npm install --prefer-offline --no-frozen-lockfile
+  pnpm install --prefer-offline --no-frozen-lockfile
 else
   echo "[2/4] node_modules 已存在，跳过依赖安装（设置 FORCE_INSTALL=1 可强制重新安装）"
 fi
 
 # ── 3. 构建 ───────────────────────────────────────────────────────────
 echo "[3/4] 本地构建中（使用 webpack 以绕过 Turbopack standalone 问题）..."
-npx next build --webpack
+pnpm exec next build --webpack
 
 # ── 4. 组装 standalone 产物 ───────────────────────────────────────────
 echo "[4/4] 组装 standalone 产物..."
@@ -58,6 +58,14 @@ if [ -d "$PUBLIC_DIR" ]; then
   mkdir -p "$STANDALONE_DIR/public"
   rsync -a --delete --exclude="*.map" "$PUBLIC_DIR/" "$STANDALONE_DIR/public/"
 fi
+
+# 补充 standalone 遗漏的客户端依赖
+echo "   补充客户端依赖..."
+for pkg in @xyflow zustand classcat use-sync-external-store; do
+  if [ -d "$SCRIPT_DIR/node_modules/$pkg" ]; then
+    cp -r "$SCRIPT_DIR/node_modules/$pkg" "$STANDALONE_DIR/node_modules/" 2>/dev/null || true
+  fi
+done
 
 # ── 5. PM2 启动 ───────────────────────────────────────────────────────
 echo ""
