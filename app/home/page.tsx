@@ -68,18 +68,16 @@ const QUICK_ACTIONS = [
 
 type TabKey = 'home' | 'history' | 'diagnosis' | 'knowledge-graph' | 'learning' | 'assessment' | 'profile'
 
-const ALL_TABS: { label: string; key: TabKey }[] = [
+const PERSONAL_TABS: { label: string; key: TabKey }[] = [
   { label: 'AI 工作台', key: 'home' },
-  { label: '数据接入', key: 'history' },
-  { label: '五维能力', key: 'diagnosis' },
+]
+
+const LEARNING_TABS: { label: string; key: TabKey }[] = [
+  { label: '成效分析', key: 'profile' },
   { label: '知识图谱', key: 'knowledge-graph' },
   { label: '学习推荐', key: 'learning' },
   { label: '学习测评', key: 'assessment' },
-  { label: '成效分析', key: 'profile' },
 ]
-
-const HIDDEN_TABS: TabKey[] = ['history', 'diagnosis']
-const TABS = ALL_TABS.filter((t) => !HIDDEN_TABS.includes(t.key))
 
 export default function StudentHomePage() {
   const searchParams = useSearchParams()
@@ -88,15 +86,20 @@ export default function StudentHomePage() {
     return q ? `${path}?${q}` : path
   }
 
+  const [section, setSection] = useState<'personal' | 'learning'>('personal')
   const [activeTab, setActiveTab] = useState<TabKey>('home')
   const [period, setPeriod] = useState<'week' | 'month' | 'year'>('month')
+
+  const TABS = section === 'personal' ? PERSONAL_TABS : LEARNING_TABS
 
   const handleMenuSelect = (label: string) => {
     switch (label) {
       case '个人课堂':
+        setSection('personal')
         setActiveTab('home')
         break
       case '学习成效':
+        setSection('learning')
         setActiveTab('profile')
         break
     }
