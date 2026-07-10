@@ -491,8 +491,8 @@ export function LearningContent() {
           </div>
         </div>
 
-        <div className="flex flex-col min-h-0 border-r lg:col-span-3">
-          <div className="min-h-0 flex-1 space-y-2 overflow-auto p-3">
+        <div className="flex flex-col border-r lg:col-span-3">
+          <div className="space-y-2 overflow-auto p-3 max-h-[880px]">
             {abilities.map((ability) => {
               const latest = getLatestScore(STUDENT_ID, ability.id)
               const score = latest?.score ?? 0
