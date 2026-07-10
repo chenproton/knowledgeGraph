@@ -54,7 +54,7 @@ export const CAPABILITY_DOMAINS: CapabilityDomain[] = [
     type: '计量采集装置更换', batchGroup: '批次2026-Q3-01', creator: '张工', createTime: '2026-05-10', version: 1,
   },
   {
-    id: 'cd3', name: '计量装置普查', code: 'CD-003', positionId: 'pos1',
+    id: 'cd3', name: '计量采集装置拆除', code: 'CD-003', positionId: 'pos1',
     unitIds: ['cu4', 'cu5', 'cu6', 'cu15', 'cu16'],
     taskDescription: '完成低压带互感器三相电能表拆除作业，包括断电确认、设备拆除、线头绝缘处理及现场清理。',
     standardDuration: '1.5 小时',
